@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root{
+    --accent1: #8181fd;
+    --accent2: #f26af6;
+    --complimentary: hsl(0, 0%, 0%);
+    --neutral:hsl(0, 0%, 100%);
+    --half-transparent:hsla(0, 0%, 0%, 0.100);
+}
+
+*{
+    font-family: 'Poppins', sans-serif;
+    color: var(--complimentary);
+}
+
+html{
+    height: 100%;
+
+    background-image: url("/images/background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    align-self: center;
+    padding: 20px 30px;
+    background-color: var(--neutral);
+    border-radius: 10px;
+}
+
+input{
+    display: block;
+
+    height: 50px;
+    width: 300px;
+
+    font-size: 1rem;
+
+    margin-bottom: 20px;
+    padding: 15px 10px;
+
+    border-radius: 5px;
+}
+
+input[type=text],
+input[type=password],
+input[type=email]{
+    box-sizing: border-box;
+
+    border: var(--complimentary) 1px solid;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus{
+    outline-color: var(--accent);
+}
+
+input[type=submit]{
+
+    margin-top: 20px;
+    margin-bottom: 0;
+    padding: 10;
+
+    background: linear-gradient(to right, var(--accent1),var(--accent2));
+
+    color: var(--neutral);
+    font-weight: bold;
+
+    border: none;
+    border-radius: 50px;
+}
+
+input[type=submit]:hover{
+    color: var(--complimentary);
+    background: linear-gradient(var(--neutral), var(--neutral)) padding-box,
+    linear-gradient(to right, var(--accent1),var(--accent2)) border-box;
+    border: 2px solid transparent;
+}
+
+hr{
+    margin: 20px 0;
+}
