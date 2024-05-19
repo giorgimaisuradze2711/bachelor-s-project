@@ -1,6 +1,5 @@
 <?php
     session_start();
-
     $time = date("H:i:s");
 
     include "../class/database.php";
@@ -18,12 +17,13 @@
     include "../class/likeView.php";
 
     $fullUrl = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
     $userID = $_GET["user_id"];
 
     $userData = new UserView();
-    
-    $user = $userData->fetchUser($userID);
+    $user = $userData->fetchUser($_SESSION["user_id"]);
+
+    $profileUserData = new UserView();
+    $profileUser = $userData->fetchUser($userID);
 
     if(!isset($_SESSION["user_id"])){
         header("location: login.php");
@@ -44,7 +44,8 @@
     <script src="/jQuery/jquery-3.6.0.min.js"></script>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/profile.css">
-    <title><?php echo $user[0]["username"] ?></title>
+    <link rel="stylesheet" href="/style.css">
+    <title><?php echo $profileUser[0]["username"] ?></title>
 </head>
 
 <body>
@@ -88,27 +89,26 @@
 
         <div class="user-info-container">
             <div class="profile-image-container">
-                <img class="profile-image-background" src="<?php echo "../user/".$userID."/profileImageBackground.png?a=".date("H:i:s"); ?>" alt="Profile Image Background">
-                    <img class="profile-image" src="<?php echo "../user/".$userID."/profileImage.png?a=".date("H:i:s"); ?>" alt="Profile Image">
-                    
-                    <?php
-                    if($_GET["user_id"] == $_SESSION["user_id"]){
-                    ?>
+                <img class="profile-image" src="<?php echo "../user/".$userID."/profileImage.png?a=".date("H:i:s"); ?>" alt="Profile Image">
+                
+                <?php
+                if($_GET["user_id"] == $_SESSION["user_id"]){
+                ?>
 
-                    <label class="profile-image-label" for="profileImage">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M4 5h13v7h2V5c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h8v-2H4V5z"/><path d="m8 11-3 4h11l-4-6-3 4z"/><path d="M19 14h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/></svg>
-                    </label>
+                <label class="profile-image-label" for="profileImage">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M4 5h13v7h2V5c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h8v-2H4V5z"/><path d="m8 11-3 4h11l-4-6-3 4z"/><path d="M19 14h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/></svg>
+                </label>
 
-                    <form id="profileImageForm" hidden action="../action/changeProfileImageAction.php" method="post" enctype="multipart/form-data">
-                        <input type="file" name="profileImage" id="profileImage">
-                    </form>
+                <form id="profileImageForm" hidden action="../action/changeProfileImageAction.php" method="post" enctype="multipart/form-data">
+                    <input type="file" name="profileImage" id="profileImage">
+                </form>
 
-                    <?php
-                    }
-                    ?>
+                <?php
+                }
+                ?>
             </div>
 
-            <h1><?php echo $user[0]["username"] ?></h1>
+            <h1><?php echo $profileUser[0]["username"] ?></h1>
 
             <?php
             if($_GET["user_id"] == $_SESSION["user_id"]){
@@ -128,5 +128,72 @@
             ?>
         </div>
     </div>
+
+    <h1 class="title">User Posts</h1>
+
+    <div class="post-container" id="postContainer">
+        <?php
+        $postLimit = 5;
+        $postOffset = 0;
+        
+        $selectPost = new PostView();
+        $posts = $selectPost -> getUserPost($userID, $postOffset, $postLimit);
+        $postCount = $selectPost -> getPostCount();
+        ?>
+        
+        <?php
+        foreach ($posts as $post){
+
+            $postID = $post["post_id"];
+            $postText = $post["post_text"];
+            $postMedia = $post["post_media"];
+
+            $fecthPostAuthor = new UserView();
+            $postAuthor = $fecthPostAuthor -> fetchUser($userID);
+            $postAuthorUsername = $postAuthor[0]["username"];
+
+            if(isset($postMedia)){
+                $postMediaFileType = strtolower(pathinfo($postMedia,PATHINFO_EXTENSION));
+            }
+
+            include "../shared/post.php";
+        }
+        ?>
+        <script>
+            $(document).ready(function(){
+                var postLimit = 5;
+                var postOffset = 0;
+
+                $("#showMorePosts").click(function(){
+                    postLimit = postLimit;
+                    postOffset = postOffset + 5;
+                    
+                    $.post("action/loadPostsAction.php",{
+                        postLimit: postLimit,
+                        postOffset: postOffset,
+                    },function(data){
+                        $("#postContainer").append(data);
+                        if(postOffset + 5 >= <?php echo count($postCount); ?>){
+                            $("body").append($('<div class = "no-posts">No More Posts, You Hit The End!</div>'));
+                            $("#showMorePosts").remove();
+                        };
+                    });
+                });
+            });
+        </script>
+    </div>
+    
+    <?php
+    if($postOffset + 5  <= count($posts)){
+    ?>
+        <button id="showMorePosts">Load More Posts</button>
+    <?php
+
+        } else {
+    ?>
+        <div class = "no-posts"> No More Posts, You Hit The End!</div>
+    <?php
+        }
+    ?>
 </body>
 </html>

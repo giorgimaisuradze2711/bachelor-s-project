@@ -12,7 +12,7 @@ if(isset($_POST["post"])){
     $postText = $_POST["postText"];
     $postMedia = $_FILES["postMedia"];
 
-    $insertPost = new PostControl(null, $userID, $postText, $postMedia);
+    $insertPost = new PostControl(null, $userID, $postText, $postMedia, null);
     $insertPost -> setPost();
 
     if(!empty($postMedia["name"])){
@@ -22,12 +22,15 @@ if(isset($_POST["post"])){
 
         $postID = $post[0]["post_id"];
 
-        mkdir("../user/" . $_SESSION["UserID"] . "/post/" . $postID, 0777, true);
+        mkdir("../user/" . $_SESSION["user_id"] . "/post/" . $postID, 0777, true);
 
         $postMediaFileType = strtolower(pathinfo($postMedia["name"],PATHINFO_EXTENSION));
         $postMediaFilePath = "../user/" . $_SESSION["user_id"] . "/post/" . $postID . "/1." . $postMediaFileType;
 
         move_uploaded_file($postMedia["tmp_name"], $postMediaFilePath);
+
+        $insertPost = new PostControl($postID, null, null, null, $postMediaFilePath);
+        $insertPost -> setPostMedia($postMediaFilePath, $postID);
     }
 }
 header("location: /index.php");

@@ -51,11 +51,20 @@ class Login extends Database {
             }
 
             if(!file_exists("../user/".$_SESSION["user_id"]."/profileImage.png")){
-                copy("../images/profileImages/".rand(1,12).".png","../user/".$_SESSION["user_id"]."/profileImage.png");
-            }
+                $mainImage = imagecreatefrompng("../images/profileImageBackgrounds/".rand(1,5).".png");
+                $mergeImage = imagecreatefrompng("../images/profileImages/".rand(1,12).".png");
 
-            if(!file_exists("../user/".$_SESSION["user_id"]."/profileImageBackground.png")){
-                copy("../images/profileImageBackgrounds/".rand(1,5).".png","../user/".$_SESSION["user_id"]."/profileImageBackground.png");
+                $mergeWidth = imagesx($mergeImage);
+                $mergeHeight = imagesy($mergeImage);
+
+                $mainWidth = imagesx($mainImage);
+                $mainHeight = imagesy($mainImage);
+
+                $mergeX = ($mainWidth - $mergeWidth) / 2;
+                $mergeY = ($mainHeight - $mergeHeight) / 2;
+                
+                imagecopymerge($mainImage, $mergeImage, $mergeX, $mergeY, 0, 0, $mergeWidth, $mergeHeight,50);
+                imagepng($mainImage,"../user/".$_SESSION["user_id"]."/profileImage.png",0);
             }
 
             if(!file_exists("../user/".$_SESSION["user_id"]."/profileBanner.png")){

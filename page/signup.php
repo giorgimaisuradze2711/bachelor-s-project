@@ -1,9 +1,7 @@
 <?php
-
 if (isset($_SESSION["UserID"])) {
     header("Location: /index.php");
 };
-
 ?>
 
 <!DOCTYPE html>
@@ -13,9 +11,10 @@ if (isset($_SESSION["UserID"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/jQuery/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/css/authentication.css">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <title>Ghostling - Sign Up</title>
+    <title>Sign Up</title>
 </head>
 <body>
     <div class="form-container">

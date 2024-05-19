@@ -8,41 +8,37 @@ use LDAP\Result;
         private $userID;
         private $postText;
         private $postMedia;
+        private $postMediaURL;
 
-        public function __construct($postID, $userID, $postText, $postMedia){
+        public function __construct($postID, $userID, $postText, $postMedia, $postMediaURL){
 
             $this->postID = $postID; 
             $this->userID = $userID;
             $this->postText = $postText;
             $this->postMedia = $postMedia;
-            
+            $this->postMediaURL = $postMediaURL;
         }
 
         public function setPost(){
-
             if($this -> emptyPost() == true){
-                
                 header("location: ../index.php?error=emptyPost");
                 exit();
-
             }
-
             if($this -> invalidFileSize() == true){
-
-                die("Invalid file Size!");
-
+                header("location: ../index.php?error=invalidFileSize");
+                exit();
             }
-            
             if($this -> invalidFileType() == true){
-
-                die("Invalid File Type!");
-
+                header("location: ../index.php?error=invalidFileType");
+                exit();
             }
 
             $this -> checkLink();
+            $this -> insertPost($this -> userID, $this -> postText, $this -> postMedia);
+        }
 
-            $this->insertPost($this -> userID, $this -> postText, $this -> postMedia);
-
+        public function setPostMedia(){
+            $this -> insertPostMedia($this -> postMediaURL, $this -> postID);
         }
 
         public function increaseCommentCount(){
@@ -99,7 +95,7 @@ use LDAP\Result;
 
             $result = null;
 
-            if($this -> postMedia["size"] > 6000000){
+            if($this -> postMedia["size"] > 60000000){
 
                 $result = true;
 

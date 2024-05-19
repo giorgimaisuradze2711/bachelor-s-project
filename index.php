@@ -20,6 +20,9 @@
 
     // include "class/likeModel.php";
     // include "class/likeView.php";
+
+    $userData = new UserView();
+    $user = $userData->fetchUser($_SESSION["user_id"]);
 ?>
 
 <!DOCTYPE html>
@@ -30,12 +33,10 @@
     <meta name="keywords" content="ghostling">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="jquery-3.6.0.min.js"></script>
+    <script src="jQuery/jquery-3.6.0.min.js"></script>
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="postForm.css">
-    <link rel="stylesheet" href="post.css">
-    <title>Ghostling</title>
+    <title>Bachelor's Project</title>
 </head>
 
 <body>
@@ -45,7 +46,7 @@
         include "shared/postForm.php";
     ?>
 
-    <div id="postContainer">
+    <div class="post-container" id="postContainer">
         <?php
         $postLimit = 5;
         $postOffset = 0;
@@ -53,6 +54,26 @@
         $selectPost = new PostView();
         $posts = $selectPost -> getPost($postOffset, $postLimit);
         $postCount = $selectPost -> getPostCount();
+        ?>
+        
+        <?php
+        foreach ($posts as $post){
+
+            $postID = $post["post_id"];
+            $userID = $post["user_id"];
+            $postText = $post["post_text"];
+            $postMedia = $post["post_media"];
+            
+            $fecthPostAuthor = new UserView();
+            $postAuthor = $fecthPostAuthor -> fetchUser($userID);
+            $postAuthorUsername = $postAuthor[0]["username"];
+
+            if(isset($postMedia)){
+                $postMediaFileType = strtolower(pathinfo($postMedia,PATHINFO_EXTENSION));
+            }
+
+            include "shared/post.php";
+        }
         ?>
         <script>
             $(document).ready(function(){
@@ -63,13 +84,10 @@
                     postLimit = postLimit;
                     postOffset = postOffset + 5;
                     
-                    $.post("action/loadPostsAction.php",
-                    {
+                    $.post("action/loadPostsAction.php",{
                         postLimit: postLimit,
                         postOffset: postOffset,
-                    },
-
-                    function(data){
+                    },function(data){
                         $("#postContainer").append(data);
                         if(postOffset + 5 >= <?php echo count($postCount); ?>){
                             $("body").append($('<div class = "no-posts">No More Posts, You Hit The End!</div>'));
@@ -79,30 +97,6 @@
                 });
             });
         </script>
-        
-        <?php
-        foreach ($posts as $post){
-
-            $postID = $post["post_id"];
-            $userID = $post["user_id"];
-            $postText = $post["post_text"];
-
-            $fecthPostAuthor = new UserView();
-            $postAuthor = $fecthPostAuthor -> fetchUser($userID);
-            $postAuthorUsername = $postAuthor[0]["username"];
-
-            $postMediaPath = "user/" . $userID . "/post/" . $postID . "/1*";
-            $postMedia = glob($postMediaPath);
-
-            if(isset($postMedia[0])){
-                $postMediaFileType = strtolower(pathinfo($postMedia[0],PATHINFO_EXTENSION));
-            }
-
-            include "shared/post.php";
-
-        }
-        ?>
-
     </div>
     
     <?php

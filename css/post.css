@@ -1,14 +1,155 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.post{
+    box-sizing: border-box;
+    width: 60%;
+    height: auto;
+    margin: 0 auto;
+    padding: 10px;
 
-:root{
-    /* Color Virables */
-    --accent: hsl(40, 100%, 68%);
-    --complimentary: hsl(0, 0%, 0%);
-    --neutral:hsl(0, 0%, 100%);
-    --half-transparent:hsla(0, 0%, 0%, 0.100);
+    border-bottom: 2px solid var(--accent);
 }
 
-*{
-    font-family: "Poppins", sans-serif;
-    font-style: normal;
+.post .user-container{
+    width: auto;
+    margin-bottom: 10px;
+}
+
+.post .user-container a{
+    width: auto;
+}
+
+.post .user-container img{
+    width: 64px;
+}
+
+.post .post-text {
+    box-sizing: border-box;
+    width: 100%;
+
+    padding: 10px;
+    margin-bottom: 10px;
+
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--complimentary);
+
+    background-color: var(--accent-low);
+    border-radius: 5px;
+}
+
+.post .post-text pre{
+    display: block;
+    width: 100%;
+    margin: 0;
+
+    user-select: text;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+.post .post-text pre a{
+    color: var(--neutral);
+}
+
+.post-media {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    width: 100%;
+
+    margin-top: 10px;
+    padding: 0;
+    
+    border: 5px;
+}
+
+.post .post-media img{
+    width: 100%;
+    aspect-ratio: 16/9;
+    padding: 0;
+    object-fit: contain;
+
+    background-color: var(--half-transparent);
+    border-radius: 5px;
+}
+
+.post .post-media video{
+    width: 100%;
+    aspect-ratio: 16/9;
+    padding: 0;
+    object-fit: contain;
+
+    background-color: var(--half-transparent);
+    border-radius: 5px;
+}
+
+.post-button-container{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    column-gap: 20px;
+
+    width: 100%;
+
+    padding: 10px 0;
+    margin-top: 10px;
+
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--complimentary);
+}
+
+.post-button-container div{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+    
+    color: var(--complimentary);
+}
+
+.post-button-container div button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+    padding: 10px;
+
+    justify-content: center;
+
+    background: linear-gradient(35deg, var(--accent), var(--accent-low)) ;
+    fill: var(--neutral);
+    color: var(--neutral);
+    font-weight: bold;
+    border: 2px solid var(--neutral);
+    border-radius: 5px;
+}
+
+.post-button-container div button:hover{
+    background: var(--neutral);
+    fill: var(--accent);
+    color: var(--accent);
+    border: 2px solid var(--accent);
+}
+
+.post-button-container div .delete-post-button{
+    margin-left: auto;
+    background: linear-gradient(35deg, #FF0000, #ff9696);
+    fill: var(--neutral);
+    border-color: var(--neutral);
+}
+
+.post-button-container div .delete-post-button:hover{
+    background: var(--neutral);
+    fill: #FF0000;
+    color: #FF0000;
+    border: 2px solid #FF0000;
+}
+
+.delete-post-button-container{
+    margin-left: auto;
 }
