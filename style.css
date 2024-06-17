@@ -17,6 +17,7 @@ body{
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -35,4 +36,33 @@ body{
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--accent);
+}
+
+.load-more-posts,
+.no-posts{
+    box-sizing: border-box;
+    display: block;
+    width: 60%;
+    padding: 10px;
+    margin: 5px auto;
+
+    color: var(--neutral);
+    font-weight: bold;
+
+    border: 2px solid var(--neutral);
+    border-radius: 5px;
+}
+
+.load-more-posts{
+    background: linear-gradient(35deg, var(--accent), var(--accent-low));
+}
+
+.load-more-posts:hover{
+    color: var(--accent);
+    background: var(--neutral);
+    border: 2px solid var(--accent);
+}
+
+.no-posts{
+    background: var(--accent-low);
 }

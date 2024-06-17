@@ -1,0 +1,76 @@
+.comment-form{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+    height: auto;
+
+    padding: 10px;
+    margin: auto;
+
+    border: 2px solid var(--accent-low);
+    border-radius: 5px;
+}
+
+.comment-form .textbox-container{
+    display: flex;
+    width: 100%;
+    column-gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.comment-form .textbox-container img{
+    width: 32px;
+    aspect-ratio: 1/1;
+}
+
+.comment-form .textbox-container textarea{
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+
+    padding: 10px;
+    white-space: pre-wrap;
+    background: transparent;
+
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--complimentary);
+
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    resize: none;
+}
+
+.comment-form .textbox-container textarea:focus{
+    outline: none;
+}
+
+.comment-form .button-container{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    column-gap: 30px;
+
+    padding: 10px 0;
+}
+
+.comment-form input[type="submit"]{
+    box-sizing: border-box;
+    padding: 10px 20px;
+
+    background: linear-gradient(35deg, var(--accent), var(--accent-low));
+
+    font-weight: bolder;
+    color: var(--neutral);
+
+    border: 2px solid var(--neutral);
+    border-radius: 5px;
+}
+
+.comment-form input[type="submit"]:hover{
+    background: var(--neutral);
+    color: var(--accent);
+    border-color: var(--accent);
+}

@@ -1,12 +1,11 @@
-<div class="comment-container">
+<link rel="stylesheet" href="/css/comment.css"><div class="comment-container">
     <div class="comment">
-        <div class="comment-user-control">
             <a class="comment-user-container" href="<?php echo "/profile.php?userID=".$commentAuthorID?>">
-                <img src="<?php echo "/user/".$commentAuthorID."/profileImage.jpg?a=".date("H:i:s") ?>" alt="">
+                <img src="<?php echo "../user/".$commentAuthorID."/profileImage.png?a=".date("H:i:s") ?>" alt="Profile Image">
                 <div><?php echo $commentAuthorUsername ?></div>
             </a>
 
-            <form style="display: none;" id="deleteCommentForm<?php echo $commentID ?>" action="action/commentAction.php" method="post">
+            <form style="display: none;" id="deleteCommentForm<?php echo $commentID ?>" method="post">
                 <input type="number" name="commentID" value=<?php echo $commentID ?>>
                 <input type="number" name="postID" value=<?php echo $postID ?>>
                 <input type="submit" name="deleteComment" id="deleteComment<?php echo $commentID ?>">
@@ -32,7 +31,7 @@
             </script>
 
             <?php
-            if($commentAuthorID == $_SESSION["UserID"]){
+            if($commentAuthorID == $_SESSION["user_id"]){
             ?>
 
             <label id="deleteComment" for="deleteComment<?php echo $commentID ?>">
@@ -42,24 +41,9 @@
             <?php
             }
             ?>
-        </div>
 
         <div class="comment-text-container">
             <pre><?php echo $commentText ?></pre>
         </div>
     </div>
-</div>
-
-</div>
-    <?php
-    if($post["Comments"] > $commentLimit ){
-    ?>
-        <button class="show-more-comments" id="showMoreComments<?php echo $postID ?>">Show More Comments</button>
-    <?php
-    } elseif($post["Comments"] == 0) {
-    ?>
-        <button id="noComment" class="no-comments">There Are No Comments, Be The First To Add One.</button>
-    <?php
-    }
-    ?>
 </div>

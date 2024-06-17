@@ -66,38 +66,25 @@ foreach ($comment as $comment){
                 $("#deleteCommentForm<?php echo $commentID ?>").submit(function(event){
 
                     event.preventDefault();
-
                     $.post("/action/deleteCommentAction.php",
-                    
                     {
-
                         postID: <?php echo $postID ?>,
                         commentID: <?php echo $commentID ?>,
-
                     },
 
                     function(){
-
                         $.post("/action/getCommentCountAction.php",
-                        
                         {
-
                             postID: <?php echo $postID ?>,
-
                         }, 
 
                         function(data){
-
                             $("#commentCountContainer<?php echo $postID ?>").html(data)
-
                         });
 
                         $("#deleteCommentForm<?php echo $commentID ?>").parents(".comment-container").remove();
-
                     });
-
                 });
-
             </script>
 
             <?php

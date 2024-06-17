@@ -9,9 +9,7 @@ include "../class/postView.php";
 $postID = $_POST["postID"];
 
 $selectPost = new PostView();
-$currentPost = $selectPost -> getPostsByID($postID);
-$commentCount = $currentPost[0]["Comments"];
+$currentPost = $selectPost -> getPostByID($postID);
+$commentCount = $currentPost[0]["comment_count"];
 
 echo $commentCount;
- 
-?>

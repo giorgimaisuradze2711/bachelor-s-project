@@ -21,7 +21,7 @@
         }
 
         protected function updateCommentCountAdd($postID){
-            $stmt = $this -> connect() -> prepare("UPDATE posts set comments = comments + 1 WHERE post_id = ?");
+            $stmt = $this -> connect() -> prepare("UPDATE posts set comment_count = comment_count + 1 WHERE post_id = ?");
 
             if(!$stmt->execute(array($postID))){
                 $stmt = null;
@@ -31,7 +31,7 @@
         }
 
         protected function updateCommentCountSubtract($postID){
-            $stmt = $this -> connect() -> prepare("UPDATE posts set comments = comments - 1 WHERE post_id = ?");
+            $stmt = $this -> connect() -> prepare("UPDATE posts set comment_count = comment_count - 1 WHERE post_id = ?");
 
             if(!$stmt->execute(array($postID))){
                 $stmt = null;
@@ -41,7 +41,7 @@
         }
 
         protected function updateLikeCountAdd($postID){
-            $stmt = $this -> connect() -> prepare("UPDATE posts set likes = likes + 1 WHERE post_id = ?");
+            $stmt = $this -> connect() -> prepare("UPDATE posts set like_count = like_count + 1 WHERE post_id = ?");
             
             if(!$stmt->execute(array($postID))){
                 $stmt = null;
@@ -51,7 +51,7 @@
         }
 
         protected function updateLikeCountSubtract($postID){
-            $stmt = $this -> connect() -> prepare("UPDATE posts set likes = likes - 1 WHERE post_id = ?");
+            $stmt = $this -> connect() -> prepare("UPDATE posts set like_count = like_count - 1 WHERE post_id = ?");
 
             if(!$stmt->execute(array($postID))){
                 $stmt = null;

@@ -19,6 +19,7 @@
 
 .post-form .user-container img{
     width: 64px;
+    aspect-ratio: 1/1;
 }
 
 .textbox-container{
@@ -26,11 +27,6 @@
     column-gap: 10px;
     justify-content: center;
     align-items: center;
-}
-
-.textbox-container img{
-    width: 64px;
-    aspect-ratio: 1/1;
 }
 
 .textbox-container textarea{

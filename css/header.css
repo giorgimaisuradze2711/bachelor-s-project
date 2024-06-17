@@ -114,7 +114,6 @@ header .you-might-know{
     width: 100%;
     padding: 5px;
 
-    background-color: var(--accent-low);
-
+    border: 2px solid var(--accent-low);
     border-radius: 5px;
 }

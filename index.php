@@ -1,6 +1,7 @@
 <?php
     session_start();
     $time = date("H:i:s");
+
     if(!isset($_SESSION["user_id"])){
         header("location: /page/login.php");
     } else {
@@ -15,8 +16,8 @@
     include "class/userModel.php";
     include "class/userView.php";
 
-    // include "class/commentModel.php";
-    // include "class/commentView.php";
+    include "class/commentModel.php";
+    include "class/commentView.php";
 
     // include "class/likeModel.php";
     // include "class/likeView.php";
@@ -47,62 +48,64 @@
     ?>
 
     <div class="post-container" id="postContainer">
-        <?php
-        $postLimit = 5;
-        $postOffset = 0;
+    <?php
+    $postLimit = 5;
+    $postOffset = 0;
+
+    $selectPost = new PostView();
+    $posts = $selectPost -> getPost($postOffset, $postLimit);
+    $postCount = $selectPost -> getPostCount();
+
+    foreach ($posts as $post){
+
+        $postID = $post["post_id"];
+        $userID = $post["user_id"];
+        $postText = $post["post_text"];
+        $postMedia = $post["post_media"];
         
-        $selectPost = new PostView();
-        $posts = $selectPost -> getPost($postOffset, $postLimit);
-        $postCount = $selectPost -> getPostCount();
-        ?>
-        
-        <?php
-        foreach ($posts as $post){
+        $fecthPostAuthor = new UserView();
+        $postAuthor = $fecthPostAuthor -> fetchUser($userID);
+        $postAuthorUsername = $postAuthor[0]["username"];
 
-            $postID = $post["post_id"];
-            $userID = $post["user_id"];
-            $postText = $post["post_text"];
-            $postMedia = $post["post_media"];
-            
-            $fecthPostAuthor = new UserView();
-            $postAuthor = $fecthPostAuthor -> fetchUser($userID);
-            $postAuthorUsername = $postAuthor[0]["username"];
-
-            if(isset($postMedia)){
-                $postMediaFileType = strtolower(pathinfo($postMedia,PATHINFO_EXTENSION));
-            }
-
-            include "shared/post.php";
+        if(isset($postMedia)){
+            $postMediaFileType = strtolower(pathinfo($postMedia,PATHINFO_EXTENSION));
         }
-        ?>
-        <script>
-            $(document).ready(function(){
-                var postLimit = 5;
-                var postOffset = 0;
 
-                $("#showMorePosts").click(function(){
-                    postLimit = postLimit;
-                    postOffset = postOffset + 5;
-                    
-                    $.post("action/loadPostsAction.php",{
-                        postLimit: postLimit,
-                        postOffset: postOffset,
-                    },function(data){
-                        $("#postContainer").append(data);
-                        if(postOffset + 5 >= <?php echo count($postCount); ?>){
-                            $("body").append($('<div class = "no-posts">No More Posts, You Hit The End!</div>'));
-                            $("#showMorePosts").remove();
-                        };
-                    });
+        include "shared/post.php";
+    }
+    ?>
+
+    <script>
+        $(document).ready(function(){
+            var postLimit = 5;
+            var postOffset = 0;
+
+            $("#showMorePosts").click(function(){
+                postLimit = postLimit;
+                postOffset = postOffset + 5;
+                
+                $.post("/jQuery/loadPosts.php",
+                {
+                    postLimit: postLimit,
+                    postOffset: postOffset,
+                },
+                function(data){
+                    $("#postContainer").append(data);
+                    if(postOffset + 5 >= <?php echo count($postCount); ?>){
+                        $("body").append($('<div class = "no-posts">No More Posts, You Hit The End!</div>'));
+                        $("#showMorePosts").remove();
+                    };
                 });
             });
-        </script>
+        });
+    </script>
+
     </div>
     
     <?php
     if($postOffset + 5  <= count($posts)){
     ?>
-        <button id="showMorePosts">Load More Posts</button>
+        <button id="showMorePosts" class="load-more-posts">Load More Posts</button>
     <?php
 
         } else {

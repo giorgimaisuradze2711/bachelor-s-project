@@ -153,3 +153,45 @@
 .delete-post-button-container{
     margin-left: auto;
 }
+
+.comment-list{
+    box-sizing: border-box;
+    max-height: 600px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    margin-top: 10px;
+    padding: 5px;
+
+    border: 2px solid var(--accent-low);
+    border-radius: 5px;
+
+}
+
+.load-more-comments,
+.no-comments{
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    padding: 5px;
+
+    color: var(--neutral);
+    font-weight: bold;
+
+    border: 2px solid var(--neutral);
+    border-radius: 5px;
+}
+
+.load-more-comments{
+    background: linear-gradient(35deg, var(--accent), var(--accent-low));
+}
+
+.load-more-comments:hover{
+    color: var(--accent);
+    background: var(--neutral);
+    border: 2px solid var(--accent);
+}
+
+.no-comments{
+    background: var(--accent-low);
+}
