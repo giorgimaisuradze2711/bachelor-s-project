@@ -5,4 +5,9 @@ class CommentView extends CommentModel{
         $comment = $this->selectCommentsByDateDesc($postID,  $commentOffset, $commentCount);
         return $comment;
     }
+
+    public function getCommentsCount(){
+        $commentsCount = $this->selectCommentsCount();
+        return $commentsCount;
+    } 
 }

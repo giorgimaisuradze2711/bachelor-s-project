@@ -16,11 +16,12 @@ include "../class/commentView.php";
 include "../class/likeModel.php";
 include "../class/likeView.php";
 
+$userID = $_SESSION["user_id"];
 $postLimit = $_POST["postLimit"];
 $postOffset = $_POST["postOffset"];
 
 $selectPost = new PostView();
-$posts = $selectPost -> getPost($postOffset, $postLimit);
+$posts = $selectPost -> getUserPost($userID, $postOffset, $postLimit);
 $postCount = $selectPost -> getPostCount();
 
 foreach ($posts as $post){

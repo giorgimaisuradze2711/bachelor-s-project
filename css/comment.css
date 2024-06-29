@@ -1,5 +1,71 @@
 .comment{
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    margin-top: 5px;
 }
+
+.comment .user-container{
+    width: auto;
+    margin-bottom: 10px;
+    justify-content: start;
+}
+
+.comment .user-container a{
+    width: auto;
+}
+
+.comment .user-container img{
+    width: 64px;
+}
+
+.comment-text {
+    box-sizing: border-box;
+    width: 100%;
+
+    padding: 10px;
+    margin-bottom: 10px;
+
+    font-size: 1rem;
+    font-weight: bold;
+
+    border: 1px solid var(--accent-low);
+    border-radius: 5px;
+}
+
+.comment-text pre{
+    display: block;
+    width: 100%;
+    margin: 0;
+
+    user-select: text;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+.delete-comment-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+    padding: 2px;
+    margin-left: 10px;
+
+    justify-content: center;
+
+    margin-left: auto;
+    background: linear-gradient(35deg, #FF0000, #ff9696);
+    fill: var(--neutral);
+    border-color: var(--neutral);
+    border-radius: 5px;
+}
+
+.delete-comment-button:hover{
+    background: var(--neutral);
+    fill: #FF0000;
+    color: #FF0000;
+    border: 2px solid #FF0000;
+}
+

@@ -55,24 +55,12 @@
             </button>
             <span id="commentCountContainer<?php echo $postID ?>">
                 <?php
-                    echo $post["comment_count"]
+                    echo $commentsCount;
                 ?>
             </span>
         </div>
-
-        <?php
-        if($userID == $_SESSION["user_id"]){
-        ?>
-        <div class="delete-post-button-container">
-            <button class="delete-post-button" id="deletePost">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm10.618-3L15 2H9L7.382 4H3v2h18V4z"></path></svg>
-                Delete
-            </button>
-        </div>
-        <?php
-        }
-        ?>
     </div>
+
 
     <div class="comment-section" id="commentSection<?php echo $postID ?>">
         <?php 
@@ -80,43 +68,69 @@
         ?>
 
         <div class="comment-list"  id="commentList<?php echo $postID ?>">
-        <?php
-        $commentOffset = 0;
-        $commentLimit = 2;
-        $selectComments = new CommentView();
-        $comment = $selectComments -> getCommentsByDateDesc($postID, $commentOffset, $commentLimit);
-
-        foreach ($comment as $comment){
-
-            $commentID = $comment["comment_id"];
-            $commentAuthorID = $comment["user_id"];
-            $commentText = $comment["comment_text"];
-
-            $fetchCommentAuthor = new UserView();
-            $commentAuthor = $fetchCommentAuthor -> fetchUser($commentAuthorID);
-            $commentAuthorUsername = $commentAuthor[0]["username"];
-
-            include "comment.php";
-        }
-        ?>
-            <div>
+            
+            <div id="commentsContainer<?php echo $postID ?>">
                 <?php
-                if($post["comment_count"] > $commentLimit ){
-                ?>
-                    <button class="load-more-comments" id="showMoreComments<?php echo $postID ?>">Show More Comments</button>
-                <?php
-                } elseif($post["comment_count"] == 0) {
-                ?>
-                    <div id="noComment" class="no-comments">There Are No Comments, Be The First To Add One.</div>
-                <?php
+                $commentOffset = 0;
+                $commentLimit = 2;
+
+                $selectComments = new CommentView();
+                $comment = $selectComments -> getCommentsByDateDesc($postID, $commentOffset, $commentLimit);
+
+                foreach ($comment as $comment){
+
+                    $commentID = $comment["comment_id"];
+                    $commentAuthorID = $comment["user_id"];
+                    $commentText = $comment["comment_text"];
+
+                    $fetchCommentAuthor = new UserView();
+                    $commentAuthor = $fetchCommentAuthor -> fetchUser($commentAuthorID);
+                    $commentAuthorUsername = $commentAuthor[0]["username"];
+
+                    include "comment.php";
                 }
                 ?>
             </div>
+
+            <?php
+            if($post["comment_count"] > 2 ){
+            ?>
+                <button class="load-more-comments" id="showMoreComments<?php echo $postID ?>">Show More Comments</button>
+            <?php
+            } elseif($commentsCount == 0) {
+            ?>
+                <div id="noComment<?php echo $postID ?>" class="no-comments">There Are No Comments, Be The First To Add One.</div>
+            <?php
+            }
+            ?>
         </div>
     </div>
 
     <script>
         $(document).ready(function(){
+            var commentLimit = 2;
+            var commentOffset = 0;
+            var postID = <?php echo $postID ?>;
+
+            $("#showMoreComments<?php echo $postID ?>").click(function(){
+                commentLimit = commentLimit;
+                commentOffset = commentOffset + 2;
+                
+                $.post("/jQuery/loadComments.php",
+                {
+                    commentLimit: commentLimit,
+                    commentOffset: commentOffset,
+                    postID: postID,
+                },
+                function(data){
+                    $("#commentsContainer<?php echo $postID ?>").append(data);
+                    if(commentOffset >= <?php echo $post["comment_count"]; ?>){
+                        $("#commentList<?php echo $postID ?>").append('<div class = "no-comments">No More Comments, You Hit The End!</div>');
+                        $("#showMoreComments<?php echo $postID ?>").remove();
+                    }
+                });
+            });
+
             $('#commentSection<?php echo $postID ?>').toggle();
             $('#commentSectionButton<?php echo $postID ?>').click(function(){
                 $('#commentSection<?php echo $postID ?>').toggle();

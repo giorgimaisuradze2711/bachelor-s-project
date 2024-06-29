@@ -32,4 +32,17 @@ class CommentModel extends Database{
             $comment = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $comment;
         }
+
+        protected function selectCommentsCount(){
+            $stmt = $this->connect()->prepare("SELECT * FROM comments;");
+            
+            if(!$stmt->execute()){
+                $stmt = null;
+                header("location: ../index.php?error=unexpectedError");
+                exit();
+            }
+
+            $commentsCount = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $commentsCount;
+        }
     }

@@ -29,7 +29,7 @@
 
                 $("#commentForm<?php echo $postID ?>")[0].reset();
                 $("#commentList<?php echo $postID ?>").prepend(data);
-                $("#noComment").remove();
+                $("#noComment<?php echo $postID ?>").remove();
             });
         });
     });

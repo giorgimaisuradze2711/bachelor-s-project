@@ -62,6 +62,7 @@
         $userID = $post["user_id"];
         $postText = $post["post_text"];
         $postMedia = $post["post_media"];
+        $commentsCount = $post["comment_count"];
         
         $fecthPostAuthor = new UserView();
         $postAuthor = $fecthPostAuthor -> fetchUser($userID);

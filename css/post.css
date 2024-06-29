@@ -174,7 +174,9 @@
     display: block;
     width: 100%;
     padding: 5px;
+    text-align: center;
 
+    background: var(--accent-low);
     color: var(--neutral);
     font-weight: bold;
 
@@ -190,8 +192,4 @@
     color: var(--accent);
     background: var(--neutral);
     border: 2px solid var(--accent);
-}
-
-.no-comments{
-    background: var(--accent-low);
 }

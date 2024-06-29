@@ -77,7 +77,7 @@
 
                     function(){
 
-                        $.post("/action/getCommentCountAction.php",
+                        $.post("/action/getCommentCount.php",
                         
                         {
 

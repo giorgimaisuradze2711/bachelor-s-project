@@ -147,6 +147,7 @@
             $postID = $post["post_id"];
             $postText = $post["post_text"];
             $postMedia = $post["post_media"];
+            $commentsCount = $post["comment_count"];
 
             $fecthPostAuthor = new UserView();
             $postAuthor = $fecthPostAuthor -> fetchUser($userID);
@@ -168,10 +169,12 @@
                     postLimit = postLimit;
                     postOffset = postOffset + 5;
                     
-                    $.post("action/loadPostsAction.php",{
+                    $.post("/jQuery/loadUserPosts.php",
+                    {
                         postLimit: postLimit,
                         postOffset: postOffset,
-                    },function(data){
+                    },
+                    function(data){
                         $("#postContainer").append(data);
                         if(postOffset + 5 >= <?php echo count($postCount); ?>){
                             $("body").append($('<div class = "no-posts">No More Posts, You Hit The End!</div>'));
@@ -181,19 +184,20 @@
                 });
             });
         </script>
-    </div>
-    
-    <?php
-    if($postOffset + 5  <= count($posts)){
-    ?>
-        <button id="showMorePosts">Load More Posts</button>
-    <?php
 
-        } else {
-    ?>
-        <div class = "no-posts"> No More Posts, You Hit The End!</div>
-    <?php
-        }
-    ?>
+        </div>
+        
+        <?php
+        if($postOffset + 5  <= count($posts)){
+        ?>
+            <button id="showMorePosts" class="load-more-posts">Load More Posts</button>
+        <?php
+
+            } else {
+        ?>
+            <div class = "no-posts"> No More Posts, You Hit The End!</div>
+        <?php
+            }
+        ?>
 </body>
 </html>
